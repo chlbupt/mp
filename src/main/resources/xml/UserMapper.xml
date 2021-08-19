@@ -3,11 +3,45 @@
 
 <mapper namespace="com.atguigu.mybatisplus.mapper.UserMapper">
 
+    <!--    <sql id="Base_Column_Lis">-->
+    <!--        uid as id,-->
+    <!--        username as name,age,email,-->
+    <!--        created_at as createdAt,-->
+    <!--        updated_at as updatedAt    </sql>-->
     <sql id="Base_Column_Lis">
-        id,name,age,email
-    </sql>
+        uid,
+        username,
+        age,
+        email,
+        is_deleted,
+        created_at,
+        updated_at</sql>
+
+    <resultMap id="myUser" type="com.atguigu.mybatisplus.entity.User">
+        <id column="uid" property="id"></id>
+        <result column="username" property="name"></result>
+        <result column="age" property="age"></result>
+        <result column="email" property="email"></result>
+        <result column="is_deleted" property="deleted"></result>
+        <result column="created_at" property="createdAt"></result>
+        <result column="updated_at" property="updatedAt"></result>
+    </resultMap>
 
     <select id="selectAllByNameUsers" resultType="com.atguigu.mybatisplus.entity.User">
-        select <include refid="Base_Column_Lis" /> from t_user where name = #{name}
+        select
+        <include refid="Base_Column_Lis"/>
+        from t_user where name = #{name}
+    </select>
+
+    <!--    <select id="selectPageByAge" resultType="com.atguigu.mybatisplus.entity.User">-->
+<!--        select-->
+<!--        <include refid="Base_Column_Lis"/>-->
+<!--        from t_user where age > #{age}-->
+<!--    </select>-->
+
+    <select id="selectPageByAge" resultMap="myUser">
+        select
+        <include refid="Base_Column_Lis"/>
+        from t_user where age > #{age}
     </select>
 </mapper>
